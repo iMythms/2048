@@ -163,7 +163,8 @@ p {
 	}
 
 	p {
-		display: none;
+		/* display: none; */
+		font-size: medium;
 	}
 
 	.items {
