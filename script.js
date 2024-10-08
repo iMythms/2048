@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 let board = []
+let score = 0
+let bestScore = 0
 
 const initializeGame = () => {
 	board = [
@@ -26,6 +28,7 @@ const initializeGame = () => {
 		[0, 0, 0, 0],
 	]
 
+	score = 0
 	placeRandomTile()
 	placeRandomTile()
 
@@ -62,6 +65,8 @@ const updateDisplay = () => {
 			cellElement.style.backgroundColor = getTileColor(value)
 		}
 	}
+	document.querySelector('#score h2').textContent = score
+	document.querySelector('#bestScore h2').textContent = bestScore
 }
 
 const resetGame = () => {
@@ -72,6 +77,7 @@ const resetGame = () => {
 		[0, 0, 0, 0],
 	]
 
+	score = 0
 	updateDisplay()
 }
 
@@ -128,6 +134,12 @@ const handleButtonPress = (direction) => {
 		console.log('Tiles moved, placing new tile...')
 		placeRandomTile()
 		updateDisplay()
+		updateBestScore()
+		if (checkForWin()) {
+			alert('Congratulations! You reached 2048!')
+		} else if (checkForTie()) {
+			alert('Game Over! No more moves available.')
+		}
 	} else {
 		console.log('No tiles moved')
 	}
@@ -225,11 +237,47 @@ const mergeTiles = (tiles) => {
 	let merged = []
 	for (let i = 0; i < tiles.length; i++) {
 		if (tiles[i] === tiles[i + 1]) {
-			merged.push(tiles[i] * 2)
+			const newValue = tiles[i] * 2
+			merged.push(newValue)
+			score += newValue // Update score when tiles are merged
 			i++ // Skip the next tile since it has been merged
 		} else {
 			merged.push(tiles[i])
 		}
 	}
 	return merged
+}
+
+const checkForWin = () => {
+	for (let row = 0; row < 4; row++) {
+		for (let col = 0; col < 4; col++) {
+			if (board[row][col] === 2048) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+const checkForTie = () => {
+	for (let row = 0; row < 4; row++) {
+		for (let col = 0; col < 4; col++) {
+			if (board[row][col] === 0) {
+				return false
+			}
+			if (col < 3 && board[row][col] === board[row][col + 1]) {
+				return false
+			}
+			if (row < 3 && board[row][col] === board[row + 1][col]) {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+const updateBestScore = () => {
+	if (score > bestScore) {
+		bestScore = score
+	}
 }
