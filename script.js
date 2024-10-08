@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const startButton = document.getElementById('Start')
 	const resetButton = document.getElementById('Reset')
+	const upButton = document.getElementById('up')
+	const downButton = document.getElementById('down')
+	const leftButton = document.getElementById('left')
+	const rightButton = document.getElementById('right')
 
 	startButton.addEventListener('click', initializeGame)
 	resetButton.addEventListener('click', resetGame)
+	upButton.addEventListener('click', () => handleButtonPress('ArrowUp'))
+	downButton.addEventListener('click', () => handleButtonPress('ArrowDown'))
+	leftButton.addEventListener('click', () => handleButtonPress('ArrowLeft'))
+	rightButton.addEventListener('click', () => handleButtonPress('ArrowRight'))
 
 	updateDisplay()
-
-	document.addEventListener('keydown', (event) => {
-		event.preventDefault() // Prevent browser's default behavior for arrow keys
-		handleKeyPress(event)
-	})
 })
 
 let board = []
@@ -101,10 +104,10 @@ const getTileColor = (value) => {
 	}
 }
 
-const handleKeyPress = (event) => {
+const handleButtonPress = (direction) => {
 	let moved = false
 
-	switch (event.key) {
+	switch (direction) {
 		case 'ArrowUp':
 			moved = moveUp()
 			break
@@ -118,7 +121,7 @@ const handleKeyPress = (event) => {
 			moved = moveRight()
 			break
 		default:
-			console.log('Invalid key pressed')
+			console.log('Invalid direction')
 	}
 
 	if (moved) {
