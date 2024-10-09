@@ -1,11 +1,5 @@
+/*-------------------------------- Event Listener ---------------------------*/
 document.addEventListener('DOMContentLoaded', () => {
-	const startButton = document.getElementById('Start')
-	const resetButton = document.getElementById('Reset')
-	const upButton = document.getElementById('up')
-	const downButton = document.getElementById('down')
-	const leftButton = document.getElementById('left')
-	const rightButton = document.getElementById('right')
-
 	startButton.addEventListener('click', initializeGame)
 	resetButton.addEventListener('click', resetGame)
 	upButton.addEventListener('click', () => handleButtonPress('ArrowUp'))
@@ -16,9 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	updateDisplay()
 })
 
+/*-------------------------------- Variables --------------------------------*/
 let board = []
 let score = 0
 let bestScore = 0
+
+/*------------------------ Cached Element References ------------------------*/
+const startButton = document.getElementById('Start')
+const resetButton = document.getElementById('Reset')
+const upButton = document.getElementById('up')
+const downButton = document.getElementById('down')
+const leftButton = document.getElementById('left')
+const rightButton = document.getElementById('right')
+
+/*-------------------------------- Functions --------------------------------*/
 
 const initializeGame = () => {
 	board = [
